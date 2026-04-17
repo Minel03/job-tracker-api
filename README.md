@@ -28,7 +28,7 @@ A state-of-the-art, professional-grade career workstation built to organize your
 
 ## 🛠️ Technical Stack
 
-- **Core**: Laravel 11 & PHP 8.2+
+- **Core**: Laravel 12 & PHP 8.2+
 - **Frontend**: React 18, TypeScript, & Tailwind CSS v4
 - **Engine**: Inertia.js (The monolith approach)
 - **AI Integration**: Groq Cloud SDK (Llama 3.3)
