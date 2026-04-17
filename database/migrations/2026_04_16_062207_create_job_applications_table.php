@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Link to user
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('company');
             $table->enum('status', ['applied', 'interview', 'offer', 'rejected'])->default('applied');
-            $table->text('notes')->nullable();
+            $table->string('url')->nullable(); // Link to the job post
+            $table->date('applied_at');       // When you applied
+            $table->text('interview_notes')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
