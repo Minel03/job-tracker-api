@@ -320,13 +320,13 @@ export default function Show({ application }: { application: JobApplication }) {
                                         <div className="prose prose-sm dark:prose-invert prose-p:text-neutral-600 dark:prose-p:text-neutral-400 prose-p:leading-relaxed prose-strong:text-neutral-900 dark:prose-strong:text-white prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100 prose-li:text-neutral-600 dark:prose-li:text-neutral-400 max-w-none">
                                             <ReactMarkdown
                                                 components={{
-                                                    h3: ({ node, ...props }) => (
+                                                    h3: ({ ...props }) => (
                                                         <h3
                                                             className="flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-2 text-sm font-black tracking-tight text-blue-700 uppercase dark:bg-blue-900/30 dark:text-blue-300"
                                                             {...props}
                                                         />
                                                     ),
-                                                    h2: ({ node, ...props }) => <h2 className="mb-4 border-b pb-2 font-black" {...props} />,
+                                                    h2: ({ ...props }) => <h2 className="mb-4 border-b pb-2 font-black" {...props} />,
                                                 }}
                                             >
                                                 {application.ai_prep_plan}
