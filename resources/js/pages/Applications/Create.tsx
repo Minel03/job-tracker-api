@@ -14,6 +14,8 @@ export default function Create() {
         company: '',
         status: 'applied',
         applied_at: new Date().toISOString().split('T')[0], // Today's date
+        url: '',
+        interview_notes: '',
         resume: null as File | null,
         screenshot: null as File | null,
         location: '',
@@ -70,7 +72,7 @@ export default function Create() {
                             <select
                                 className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                 value={data.status}
-                                onChange={(e) => setData('status', e.target.value as any)}
+                                onChange={(e) => setData('status', e.target.value as 'applied' | 'interview' | 'offer' | 'rejected')}
                             >
                                 <option value="applied">Applied</option>
                                 <option value="interview">Interview</option>
@@ -114,7 +116,7 @@ export default function Create() {
                                 <select
                                     className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                     value={data.job_type}
-                                    onChange={(e) => setData('job_type', e.target.value as any)}
+                                    onChange={(e) => setData('job_type', e.target.value as 'full-time' | 'part-time' | 'contract' | 'internship' | 'freelance')}
                                 >
                                     <option value="full-time">Full-time</option>
                                     <option value="part-time">Part-time</option>
@@ -129,7 +131,7 @@ export default function Create() {
                                 <select
                                     className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                     value={data.remote_policy}
-                                    onChange={(e) => setData('remote_policy', e.target.value as any)}
+                                    onChange={(e) => setData('remote_policy', e.target.value as 'remote' | 'hybrid' | 'on-site')}
                                 >
                                     <option value="on-site">On-site</option>
                                     <option value="hybrid">Hybrid</option>

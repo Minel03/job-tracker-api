@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type JobApplication } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
@@ -20,7 +20,7 @@ interface DashboardProps {
         rejected: number;
     };
     chartData: Array<{ name: string; value: number; color: string }>;
-    upcomingInterviews: any[];
+    upcomingInterviews: JobApplication[];
 }
 
 export default function Dashboard({ stats, chartData, upcomingInterviews }: DashboardProps) {
@@ -66,18 +66,20 @@ export default function Dashboard({ stats, chartData, upcomingInterviews }: Dash
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
                                             <Pie
-                                                data={chartData.filter(d => d.value > 0)}
+                                                data={chartData.filter((d) => d.value > 0)}
                                                 innerRadius={65}
                                                 outerRadius={85}
-                                                paddingAngle={chartData.filter(d => d.value > 0).length > 1 ? 8 : 0}
+                                                paddingAngle={chartData.filter((d) => d.value > 0).length > 1 ? 8 : 0}
                                                 dataKey="value"
                                                 stroke="none"
                                                 cx="50%"
                                                 cy="50%"
                                             >
-                                                {chartData.filter(d => d.value > 0).map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                                ))}
+                                                {chartData
+                                                    .filter((d) => d.value > 0)
+                                                    .map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                                    ))}
                                             </Pie>
                                             <Tooltip
                                                 contentStyle={{

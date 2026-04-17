@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type JobApplication } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -7,7 +7,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Edit Application', href: '#' },
 ];
 
-export default function Edit({ application }: { application: any }) {
+export default function Edit({ application }: { application: JobApplication }) {
     // 1. Initialize with EXISTING data
     const { data, setData, post, processing, errors } = useForm({
         _method: 'PATCH', // Required for file uploads on update in PHP/Laravel
@@ -71,7 +71,7 @@ export default function Edit({ application }: { application: any }) {
                             <select
                                 className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                 value={data.status}
-                                onChange={(e) => setData('status', e.target.value as any)}
+                                onChange={(e) => setData('status', e.target.value as 'applied' | 'interview' | 'offer' | 'rejected')}
                             >
                                 <option value="applied">Applied</option>
                                 <option value="interview">Interview</option>
@@ -115,7 +115,7 @@ export default function Edit({ application }: { application: any }) {
                                 <select
                                     className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                     value={data.job_type}
-                                    onChange={(e) => setData('job_type', e.target.value as any)}
+                                    onChange={(e) => setData('job_type', e.target.value as 'full-time' | 'part-time' | 'contract' | 'internship' | 'freelance')}
                                 >
                                     <option value="full-time">Full-time</option>
                                     <option value="part-time">Part-time</option>
@@ -130,7 +130,7 @@ export default function Edit({ application }: { application: any }) {
                                 <select
                                     className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
                                     value={data.remote_policy}
-                                    onChange={(e) => setData('remote_policy', e.target.value as any)}
+                                    onChange={(e) => setData('remote_policy', e.target.value as 'remote' | 'hybrid' | 'on-site')}
                                 >
                                     <option value="on-site">On-site</option>
                                     <option value="hybrid">Hybrid</option>

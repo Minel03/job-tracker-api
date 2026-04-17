@@ -1,7 +1,7 @@
-import AppLayout from '@/layouts/app-layout';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type BreadcrumbItem } from '@/types';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem, type JobApplication } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { BriefcaseBusiness, Filter, MapPin, Search, Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -10,23 +10,31 @@ const breadcrumbs: BreadcrumbItem[] = [{ title: 'Applications', href: '/job-appl
 
 const getStatusColor = (status: string) => {
     switch (status) {
-        case 'interview': return 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:border-orange-800';
-        case 'offer': return 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800';
-        case 'rejected': return 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800';
-        default: return 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800';
+        case 'interview':
+            return 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:border-orange-800';
+        case 'offer':
+            return 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800';
+        case 'rejected':
+            return 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800';
+        default:
+            return 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800';
     }
 };
 
-export default function Index({ applications }: { applications: any[] }) {
+export default function Index({ applications }: { applications: JobApplication[] }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
 
     const handleStatusUpdate = (jobId: number, newStatus: string) => {
-        router.patch(route('job-applications.update', jobId), {
-            status: newStatus,
-        }, {
-            preserveScroll: true,
-        });
+        router.patch(
+            route('job-applications.update', jobId),
+            {
+                status: newStatus,
+            },
+            {
+                preserveScroll: true,
+            },
+        );
     };
 
     // Real-time filtering logic
@@ -53,7 +61,10 @@ export default function Index({ applications }: { applications: any[] }) {
                         <h1 className="text-2xl font-bold">My Applications</h1>
                         <p className="text-sm text-neutral-500">Track and manage your professional opportunities.</p>
                     </div>
-                    <Link href="/job-applications/create" className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white shadow-xs transition hover:bg-blue-700">
+                    <Link
+                        href="/job-applications/create"
+                        className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white shadow-xs transition hover:bg-blue-700"
+                    >
                         Add New Job
                     </Link>
                 </div>
@@ -69,8 +80,8 @@ export default function Index({ applications }: { applications: any[] }) {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center gap-2 w-full sm:w-48">
-                        <Filter className="h-4 w-4 text-neutral-500 shrink-0" />
+                    <div className="flex w-full items-center gap-2 sm:w-48">
+                        <Filter className="h-4 w-4 shrink-0 text-neutral-500" />
                         <Select value={statusFilter} onValueChange={setStatusFilter}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Status" />
@@ -97,7 +108,7 @@ export default function Index({ applications }: { applications: any[] }) {
                             <p className="mb-6 text-neutral-500">
                                 {searchQuery || statusFilter !== 'all'
                                     ? "Try adjusting your search or filters to find what you're looking for."
-                                    : "Start your journey by adding your first job application."}
+                                    : 'Start your journey by adding your first job application.'}
                             </p>
                         </div>
                     )}
@@ -108,7 +119,7 @@ export default function Index({ applications }: { applications: any[] }) {
                             className="flex flex-col gap-4 rounded-xl border bg-white p-5 shadow-xs transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between dark:border-neutral-800 dark:bg-neutral-900"
                         >
                             <div className="flex flex-1 flex-col gap-1">
-                                <h3 className="text-lg font-bold leading-none">{job.title}</h3>
+                                <h3 className="text-lg leading-none font-bold">{job.title}</h3>
                                 <div className="flex flex-col gap-1.5 text-sm">
                                     <div className="flex items-center gap-2 text-neutral-500">
                                         <span className="font-bold text-neutral-800 dark:text-neutral-200">{job.company}</span>
@@ -117,7 +128,7 @@ export default function Index({ applications }: { applications: any[] }) {
                                     </div>
 
                                     {(job.location || job.job_type || job.remote_policy || job.salary) && (
-                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-400 font-medium">
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-neutral-400">
                                             {job.location && (
                                                 <span className="flex items-center gap-1">
                                                     <MapPin className="h-3 w-3" />
@@ -131,15 +142,11 @@ export default function Index({ applications }: { applications: any[] }) {
                                                 </span>
                                             )}
                                             {job.remote_policy && (
-                                                <span className="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-[10px] uppercase tracking-wider font-bold">
+                                                <span className="rounded-md bg-neutral-100 px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase dark:bg-neutral-800">
                                                     {job.remote_policy}
                                                 </span>
                                             )}
-                                            {job.salary && (
-                                                <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                                                    {job.salary}
-                                                </span>
-                                            )}
+                                            {job.salary && <span className="font-bold text-emerald-600 dark:text-emerald-400">{job.salary}</span>}
                                         </div>
                                     )}
                                 </div>
@@ -149,7 +156,9 @@ export default function Index({ applications }: { applications: any[] }) {
                                 {/* Interactive Status Select */}
                                 <div className="w-32">
                                     <Select value={job.status} onValueChange={(val) => handleStatusUpdate(job.id, val)}>
-                                        <SelectTrigger className={`h-8 text-[10px] font-bold tracking-tight uppercase border-none rounded-full px-3 ${getStatusColor(job.status)}`}>
+                                        <SelectTrigger
+                                            className={`h-8 rounded-full border-none px-3 text-[10px] font-bold tracking-tight uppercase ${getStatusColor(job.status)}`}
+                                        >
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -171,7 +180,7 @@ export default function Index({ applications }: { applications: any[] }) {
 
                                     <Link
                                         href={route('job-applications.edit', job.id)}
-                                        className="text-sm font-medium text-neutral-500 transition hover:text-blue-600 px-2"
+                                        className="px-2 text-sm font-medium text-neutral-500 transition hover:text-blue-600"
                                     >
                                         Edit
                                     </Link>
@@ -181,7 +190,7 @@ export default function Index({ applications }: { applications: any[] }) {
                                         method="delete"
                                         as="button"
                                         onBefore={() => confirm('Delete this application?')}
-                                        className="text-sm font-medium text-neutral-500 transition hover:text-red-600 px-2"
+                                        className="px-2 text-sm font-medium text-neutral-500 transition hover:text-red-600"
                                     >
                                         Delete
                                     </Link>
