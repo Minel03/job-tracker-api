@@ -19,6 +19,10 @@ export default function Edit({ application }: { application: any }) {
         interview_notes: application.interview_notes || '',
         resume: null as File | null,
         screenshot: null as File | null,
+        location: application.location || '',
+        salary: application.salary || '',
+        job_type: application.job_type || 'full-time',
+        remote_policy: application.remote_policy || 'on-site',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -75,6 +79,64 @@ export default function Edit({ application }: { application: any }) {
                                 <option value="rejected">Rejected</option>
                             </select>
                             {errors.status && <div className="mt-1 text-xs text-red-500">{errors.status}</div>}
+                        </div>
+                    </div>
+
+                    {/* Job Context Section */}
+                    <div className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-6 dark:border-neutral-800 dark:bg-neutral-900/50">
+                        <h2 className="mb-4 text-sm font-bold uppercase tracking-wider text-neutral-500">Job Context</h2>
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div>
+                                <label className="block text-sm font-medium">Location</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. Remote, New York, Tokyo"
+                                    className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
+                                    value={data.location}
+                                    onChange={(e) => setData('location', e.target.value)}
+                                />
+                                {errors.location && <div className="mt-1 text-xs text-red-500">{errors.location}</div>}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium">Salary Range (Optional)</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. $100k - $120k"
+                                    className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
+                                    value={data.salary}
+                                    onChange={(e) => setData('salary', e.target.value)}
+                                />
+                                {errors.salary && <div className="mt-1 text-xs text-red-500">{errors.salary}</div>}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium">Job Type</label>
+                                <select
+                                    className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
+                                    value={data.job_type}
+                                    onChange={(e) => setData('job_type', e.target.value as any)}
+                                >
+                                    <option value="full-time">Full-time</option>
+                                    <option value="part-time">Part-time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="internship">Internship</option>
+                                    <option value="freelance">Freelance</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium">Work Policy</label>
+                                <select
+                                    className="mt-1 w-full rounded-md border p-2.5 dark:bg-neutral-800"
+                                    value={data.remote_policy}
+                                    onChange={(e) => setData('remote_policy', e.target.value as any)}
+                                >
+                                    <option value="on-site">On-site</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="remote">Remote</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -142,7 +204,7 @@ export default function Edit({ application }: { application: any }) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Interview Notes</label>
+                        <label className="block text-sm font-medium">Interview Notes & Research</label>
                         <textarea
                             rows={4}
                             placeholder="What do you know about this role?"

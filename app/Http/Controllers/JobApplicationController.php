@@ -26,17 +26,26 @@ class JobApplicationController extends Controller
             abort(403);
         }
 
-        $prompt = "Act as an expert technical recruiter and career coach. 
-            Company: {$jobApplication->company}
-            Position: {$jobApplication->title}
-            My current notes: {$jobApplication->interview_notes}
+        $prompt = "Act as an expert technical recruiter and career coach.
+            Target Company: {$jobApplication->company}
+            Target Position: {$jobApplication->title}
+            Location: {$jobApplication->location}
+            Job Type: {$jobApplication->job_type}
+            Remote Policy: {$jobApplication->remote_policy}
+            Salary/Range: {$jobApplication->salary}
+            My current notes & Research: {$jobApplication->interview_notes}
 
-            Based on this information, provide:
-            1. 5 tailored interview questions specifically for this role and company.
-            2. For each question, provide a brief 'Key Consideration' or what the interviewer is looking for.
-            3. A one-sentence 'Winning Strategy' for this interview.
+            Based on this information, provide a comprehensive interview preparation guide:
 
-            Format the response in clean Markdown.";
+            1. **Tailored Interview Questions**: Provide 5 highly specific questions I am likely to face.
+            2. **For Each Question**:
+               - **Recruiter's Perspective**: What are they actually trying to evaluate?
+               - **Suggested Answer Blueprint**: Provide a structured approach (e.g., STAR method) on how I should answer this. Give specific points I should mention based on the company and role.
+               - **Common Pitfall**: One thing I should absolutely avoid saying for this specific question.
+            3. **A 'Winning Strategy'**: A two-sentence high-level approach for this specific company culture.
+            4. **Pro-Tip**: One unexpected piece of advice for this specific role and location.
+
+            Format the response in professional, structured Markdown with bold headers.";
 
         $messages = [
             ['role' => 'system', 'content' => 'You are a professional career coach.'],
@@ -111,10 +120,18 @@ class JobApplicationController extends Controller
             'interview_notes' => 'nullable|string',
             'resume' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'screenshot' => 'nullable|image|max:5120',
+            'location' => 'nullable|string|max:255',
+            'salary' => 'nullable|string|max:255',
+            'job_type' => 'nullable|in:full-time,part-time,contract,internship,freelance',
+            'remote_policy' => 'nullable|in:remote,hybrid,on-site',
         ]);
 
         $data = $validated;
         unset($data['resume'], $data['screenshot']);
+
+        // Set defaults if missing
+        $data['job_type'] = $data['job_type'] ?? 'full-time';
+        $data['remote_policy'] = $data['remote_policy'] ?? 'on-site';
 
         if ($request->hasFile('resume')) {
             $upload = $this->cloudinary->upload($request->file('resume')->getRealPath(), 'resumes');
@@ -153,6 +170,10 @@ class JobApplicationController extends Controller
             'interview_notes' => 'nullable|string',
             'resume' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'screenshot' => 'nullable|image|max:5120',
+            'location' => 'nullable|string|max:255',
+            'salary' => 'nullable|string|max:255',
+            'job_type' => 'nullable|in:full-time,part-time,contract,internship,freelance',
+            'remote_policy' => 'nullable|in:remote,hybrid,on-site',
         ]);
 
         $data = $validated;

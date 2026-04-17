@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { BriefcaseBusiness, Filter, Search, Sparkles } from 'lucide-react';
+import { BriefcaseBusiness, Filter, MapPin, Search, Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Applications', href: '/job-applications' }];
@@ -109,17 +109,38 @@ export default function Index({ applications }: { applications: any[] }) {
                         >
                             <div className="flex flex-1 flex-col gap-1">
                                 <h3 className="text-lg font-bold leading-none">{job.title}</h3>
-                                <div className="flex flex-col gap-1 text-sm text-neutral-500">
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-medium text-neutral-700 dark:text-neutral-300">{job.company}</span>
+                                <div className="flex flex-col gap-1.5 text-sm">
+                                    <div className="flex items-center gap-2 text-neutral-500">
+                                        <span className="font-bold text-neutral-800 dark:text-neutral-200">{job.company}</span>
                                         <span>•</span>
                                         <span>Applied {new Date(job.applied_at).toLocaleDateString()}</span>
                                     </div>
 
-                                    {job.url && (
-                                        <a href={job.url} target="_blank" className="flex items-center gap-1 text-xs text-blue-500 hover:underline">
-                                            🔗 View Posting
-                                        </a>
+                                    {(job.location || job.job_type || job.remote_policy || job.salary) && (
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-400 font-medium">
+                                            {job.location && (
+                                                <span className="flex items-center gap-1">
+                                                    <MapPin className="h-3 w-3" />
+                                                    {job.location}
+                                                </span>
+                                            )}
+                                            {job.job_type && (
+                                                <span className="flex items-center gap-1">
+                                                    <BriefcaseBusiness className="h-3 w-3" />
+                                                    <span className="capitalize">{job.job_type}</span>
+                                                </span>
+                                            )}
+                                            {job.remote_policy && (
+                                                <span className="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-[10px] uppercase tracking-wider font-bold">
+                                                    {job.remote_policy}
+                                                </span>
+                                            )}
+                                            {job.salary && (
+                                                <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                                                    {job.salary}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             </div>

@@ -19,6 +19,10 @@ class JobApplication extends Model
         'resume_public_id',
         'screenshot_url',
         'screenshot_public_id',
+        'location',
+        'salary',
+        'job_type',
+        'remote_policy',
     ];
 
     public function user()

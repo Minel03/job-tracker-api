@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { BadgeCheck, Calendar, ChevronLeft, FileText, Globe, Image as ImageIcon, MessageSquareText, Sparkles } from 'lucide-react';
+import { BadgeCheck, Briefcase, Calendar, ChevronLeft, DollarSign, FileText, Globe, House, Image as ImageIcon, MapPin, MessageSquareText, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
@@ -29,7 +29,7 @@ export default function Show({ application }: { application: any }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Prep: ${application.title} @ ${application.company}`} />
 
-            <div className="mx-auto max-w-4xl p-4 pb-20 space-y-8">
+            <div className="mx-auto max-w-7xl px-6 p-4 pb-20 space-y-8">
                 {/* Header Section */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex flex-col gap-1">
@@ -73,6 +73,50 @@ export default function Show({ application }: { application: any }) {
                                     <div className="flex flex-col">
                                         <span className="text-xs text-neutral-500 font-medium">Applied On</span>
                                         <span className="text-sm font-bold">{new Date(application.applied_at).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+
+                                {application.location && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 rounded-lg bg-neutral-50 text-neutral-600 dark:bg-neutral-800">
+                                            <MapPin className="h-4 w-4" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-xs text-neutral-500 font-medium">Location</span>
+                                            <span className="text-sm font-bold">{application.location}</span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {application.salary && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 rounded-lg bg-green-50 text-green-600 dark:bg-green-900/20">
+                                            <DollarSign className="h-4 w-4" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-xs text-neutral-500 font-medium">Salary</span>
+                                            <span className="text-sm font-bold">{application.salary}</span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20">
+                                        <Briefcase className="h-4 w-4" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-xs text-neutral-500 font-medium">Type</span>
+                                        <span className="text-sm font-bold capitalize">{application.job_type}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/20">
+                                        <House className="h-4 w-4" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-xs text-neutral-500 font-medium">Work Policy</span>
+                                        <span className="text-sm font-bold capitalize">{application.remote_policy}</span>
                                     </div>
                                 </div>
 
@@ -161,7 +205,7 @@ export default function Show({ application }: { application: any }) {
                                     disabled={isAiLoading}
                                     className="rounded-full bg-blue-600 px-6 py-2.5 text-sm font-bold text-white shadow-xl shadow-blue-500/20 transition hover:bg-blue-700 hover:scale-105 active:scale-95 disabled:opacity-50"
                                 >
-                                    {isAiLoading ? 'Analyzing...' : (application.ai_prep_plan ? '⚡ Regenerate Prep' : '⚡ Generate Prep Plan')}
+                                    {isAiLoading ? 'Analyzing...' : (application.ai_prep_plan ? '🎯 Refine Prep Plan' : '⚡ Generate Prep Plan')}
                                 </button>
                             </div>
 
