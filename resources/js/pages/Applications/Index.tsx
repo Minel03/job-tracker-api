@@ -6,7 +6,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { BriefcaseBusiness, Filter, MapPin, Search, Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [{ title: 'Applications', href: '/job-applications' }];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'My Applications', href: '/job-applications' }];
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -53,17 +53,17 @@ export default function Index({ applications }: { applications: JobApplication[]
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Job Applications" />
+            <Head title="My Applications" />
 
             <div className="space-y-6 p-4 pb-20">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold">My Applications</h1>
-                        <p className="text-sm text-neutral-500">Track and manage your professional opportunities.</p>
+                <div className="flex flex-col gap-6 border-b border-neutral-100 pb-8 sm:flex-row sm:items-end sm:justify-between dark:border-neutral-800">
+                    <div className="flex flex-col gap-1">
+                        <h1 className="text-5xl font-black tracking-tight text-neutral-900 dark:text-neutral-100">My Applications</h1>
+                        <p className="text-sm font-medium text-neutral-500">Track and manage your professional opportunities at scale.</p>
                     </div>
                     <Link
                         href="/job-applications/create"
-                        className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white shadow-xs transition hover:bg-blue-700"
+                        className="rounded-xl bg-blue-600 px-6 py-3.5 text-xs font-black tracking-widest text-white uppercase shadow-xl shadow-blue-500/30 transition hover:scale-[1.02] hover:bg-blue-700 active:scale-95"
                     >
                         Add New Job
                     </Link>

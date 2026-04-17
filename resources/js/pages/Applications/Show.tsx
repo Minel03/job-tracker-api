@@ -25,8 +25,8 @@ export default function Show({ application }: { application: JobApplication }) {
     const [copySuccess, setCopySuccess] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Applications', href: '/job-applications' },
-        { title: 'Interview Prep', href: '#' },
+        { title: 'My Applications', href: route('job-applications.index') },
+        { title: 'Preparation Plan', href: '#' },
     ];
 
     const getStepStatus = (step: string) => {
@@ -62,24 +62,44 @@ export default function Show({ application }: { application: JobApplication }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Prep: ${application.title} @ ${application.company}`} />
 
-            <div className="mx-auto max-w-7xl space-y-8 p-4 px-6 pb-20">
-                {/* Header Section */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex flex-col gap-1">
-                        <Link
-                            href={route('job-applications.index')}
-                            className="mb-2 flex items-center gap-1 text-sm text-neutral-500 transition hover:text-blue-600"
+            <div className="space-y-8 p-4 pb-20">
+                {/* Elite Header Section */}
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between border-b border-neutral-100 pb-8 dark:border-neutral-800">
+                    <div className="flex flex-col gap-4">
+                        <Link 
+                            href={route('job-applications.index')} 
+                            className="group mb-6 flex w-fit items-center gap-2 px-1 text-xs font-black tracking-widest text-neutral-400 uppercase transition hover:text-blue-600"
                         >
-                            <ChevronLeft className="h-4 w-4" /> Back to list
+                             <ChevronLeft className="h-4 w-4 transition group-hover:-translate-x-1" /> Back to List
                         </Link>
-                        <h1 className="text-4xl font-black tracking-tight">{application.title}</h1>
-                        <p className="text-xl font-medium text-neutral-500">{application.company}</p>
+                        
+                        <div className="flex items-center gap-6">
+                            {/* Company Avatar */}
+                            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-600 font-black text-2xl text-white shadow-xl shadow-blue-500/20">
+                                {application.company.charAt(0)}
+                            </div>
+                            
+                            <div className="flex flex-col">
+                                <h1 className="text-5xl font-black tracking-tight text-neutral-900 dark:text-neutral-100">{application.title}</h1>
+                                <div className="mt-2 flex flex-wrap items-center gap-3">
+                                    <span className="text-xl font-bold text-neutral-500">{application.company}</span>
+                                    <span className="h-1 w-1 rounded-full bg-neutral-300"></span>
+                                    <div className="flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-neutral-500 dark:bg-neutral-800">
+                                        <Calendar className="h-3 w-3" />
+                                        Applied {Math.floor((new Date().getTime() - new Date(application.applied_at).getTime()) / (1000 * 3600 * 24))} days ago
+                                    </div>
+                                    <div className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-blue-600 dark:bg-blue-900/20">
+                                        ID: #{application.id.toString().padStart(4, '0')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <Link
+                        <Link 
                             href={route('job-applications.edit', application.id)}
-                            className="rounded-xl border px-5 py-2.5 text-sm font-bold shadow-sm transition hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                            className="rounded-xl bg-neutral-100 px-6 py-3 text-xs font-black uppercase tracking-widest transition hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700"
                         >
                             Edit Case
                         </Link>

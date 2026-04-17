@@ -162,11 +162,11 @@ class JobApplicationController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'company' => 'required|string|max:255',
-            'status' => 'required|in:applied,interview,offer,rejected',
+            'title' => 'sometimes|required|string|max:255',
+            'company' => 'sometimes|required|string|max:255',
+            'status' => 'sometimes|required|in:applied,interview,offer,rejected',
             'url' => 'nullable|url',
-            'applied_at' => 'required|date',
+            'applied_at' => 'sometimes|required|date',
             'interview_notes' => 'nullable|string',
             'resume' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'screenshot' => 'nullable|image|max:5120',
@@ -198,7 +198,7 @@ class JobApplicationController extends Controller
 
         $jobApplication->update($data);
 
-        return redirect()->route('job-applications.index')
+        return redirect()->route('job-applications.show', $jobApplication)
             ->with('success', 'Application updated!');
     }
 
