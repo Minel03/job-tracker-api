@@ -20,7 +20,7 @@ export default function Welcome() {
                     </div>
                     
                     <nav className="flex items-center gap-6">
-                        {auth.user ? (
+                        {auth?.user ? (
                             <Link
                                 href={route('dashboard')}
                                 className="inline-flex h-10 items-center justify-center rounded-xl bg-neutral-900 px-6 text-xs font-bold text-white transition hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
@@ -71,7 +71,7 @@ export default function Welcome() {
                     
                     <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row">
                         <Link
-                            href={auth.user ? route('dashboard') : route('register')}
+                            href={auth?.user ? route('dashboard') : route('register')}
                             className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-neutral-900 px-8 text-sm font-bold text-white transition hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
                         >
                             Get Started Now <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
