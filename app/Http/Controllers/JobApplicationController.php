@@ -135,14 +135,18 @@ class JobApplicationController extends Controller
 
         if ($request->hasFile('resume')) {
             $upload = $this->cloudinary->upload($request->file('resume')->getRealPath(), 'resumes');
-            $data['resume_url'] = $upload['url'];
-            $data['resume_public_id'] = $upload['public_id'];
+            if ($upload) {
+                $data['resume_url'] = $upload['url'];
+                $data['resume_public_id'] = $upload['public_id'];
+            }
         }
 
         if ($request->hasFile('screenshot')) {
             $upload = $this->cloudinary->upload($request->file('screenshot')->getRealPath(), 'screenshots');
-            $data['screenshot_url'] = $upload['url'];
-            $data['screenshot_public_id'] = $upload['public_id'];
+            if ($upload) {
+                $data['screenshot_url'] = $upload['url'];
+                $data['screenshot_public_id'] = $upload['public_id'];
+            }
         }
 
         $request->user()->jobApplications()->create($data);
@@ -184,16 +188,20 @@ class JobApplicationController extends Controller
             $this->cloudinary->delete($jobApplication->resume_public_id);
 
             $upload = $this->cloudinary->upload($request->file('resume')->getRealPath(), 'resumes');
-            $data['resume_url'] = $upload['url'];
-            $data['resume_public_id'] = $upload['public_id'];
+            if ($upload) {
+                $data['resume_url'] = $upload['url'];
+                $data['resume_public_id'] = $upload['public_id'];
+            }
         }
 
         if ($request->hasFile('screenshot')) {
             $this->cloudinary->delete($jobApplication->screenshot_public_id);
 
             $upload = $this->cloudinary->upload($request->file('screenshot')->getRealPath(), 'screenshots');
-            $data['screenshot_url'] = $upload['url'];
-            $data['screenshot_public_id'] = $upload['public_id'];
+            if ($upload) {
+                $data['screenshot_url'] = $upload['url'];
+                $data['screenshot_public_id'] = $upload['public_id'];
+            }
         }
 
         $jobApplication->update($data);

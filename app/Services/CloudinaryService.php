@@ -44,21 +44,30 @@ class CloudinaryService
      */
     public function upload($filePath, $folder = 'job-tracker')
     {
-        $client = $this->getClient();
+        try {
+            $client = $this->getClient();
 
-        if (!$client) {
+            if (!$client) {
+                return null;
+            }
+
+            $result = $client->uploadApi()->upload($filePath, [
+                'folder' => $folder,
+                'resource_type' => 'auto',
+            ]);
+
+            if (!$result || !isset($result['secure_url'])) {
+                return null;
+            }
+
+            return [
+                'url' => $result['secure_url'],
+                'public_id' => $result['public_id'] ?? null,
+            ];
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Cloudinary Upload Error: ' . $e->getMessage());
             return null;
         }
-
-        $result = $client->uploadApi()->upload($filePath, [
-            'folder' => $folder,
-            'resource_type' => 'auto',
-        ]);
-
-        return [
-            'url' => $result['secure_url'],
-            'public_id' => $result['public_id'],
-        ];
     }
 
     /**
